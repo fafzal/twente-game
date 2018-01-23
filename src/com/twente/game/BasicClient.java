@@ -1,7 +1,5 @@
 package com.twente.game;
 
-import java.io.Writer;
-
 public interface BasicClient {
 
 	//                 Error codes                 

@@ -37,9 +37,7 @@ public interface BasicServer {
 	public void sendDoMove(String name);
 	public void sendDoneMove(String name, int x, int y, int size, int colour);
 	public void sendPlayerLeft(String name);
-	public void sendResults(Map<String, Integer> playerPointsMap, 
-						Map<String, Integer> playerRingsMap, 
-						Map<String, Boolean> playerIsWinnerMap);
+	public void sendResults(Map <String, Integer> playerPointsMap, Map <String, Integer> playerRingsMap, Map <String, Boolean> playerIsWinnerMap);
 	// receiving Commands (incoming)
 	public void receiveHello(String helloCommand);
 	public void receiveStart(String startCommand);
