@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTest {
 
@@ -17,9 +19,19 @@ public class BoardTest {
     Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
     Map <String, List <Integer>> userMap = new HashMap <>();
 
+
     @BeforeEach
     void setUp() {
-        boardIndex[0][0] = userMap;
+        initialize();
+//        boardIndex[0][0] =userMap;
+    }
+
+    private void initialize() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                boardIndex[i][j] = new HashMap <>();
+            }
+        }
     }
 
     @Test
@@ -40,8 +52,10 @@ public class BoardTest {
         userMap.put("player3", new ArrayList <>());
         userMap.put("player4", new ArrayList <>());
 
+        boardIndex[0][0] = userMap;
 
-        String winner = board.play(boardIndex[0][0]);
+
+        String winner = board.decideWinner(boardIndex[0][0]);
         assertEquals("player2 win", winner);
     }
 
@@ -64,7 +78,9 @@ public class BoardTest {
         userMap.put("player3", player3);
         userMap.put("player4", player4);
 
-        String draw = board.play(boardIndex[0][0]);
+        boardIndex[0][0]= userMap;
+
+        String draw = board.decideWinner(boardIndex[0][0]);
         assertEquals("draw", draw);
 
 
@@ -77,11 +93,9 @@ public class BoardTest {
         List <Integer> player3 = new ArrayList <>();
 
         player1.add(2);
-        player1.add(1);
-
+        
         player2.add(3);
         player2.add(4);
-        player2.add(2);
 
         player3.add(0);
 
@@ -90,12 +104,24 @@ public class BoardTest {
         userMap.put("player3", player3);
         userMap.put("player4", new ArrayList <>());
 
-        String winner = board.play(boardIndex[0][0]);
+        boardIndex[0][0]= userMap;
+
+        String winner = board.decideWinner(boardIndex[0][0]);
         assertEquals("player2 win", winner);
 
     }
 
 
+    @Test
+    void scanBoard2Player() {
+        boolean actual = board.isValidMove("player", 3, 4, 2, boardIndex);
+        assertTrue(actual);
+    }
+    @Test
+    void scanBoardStartBase() {
+        boolean result = board.isValidMoveForBase("player", 7,6,2, boardIndex);
+        assertFalse(result);
+    }
 }
 
 

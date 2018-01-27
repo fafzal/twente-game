@@ -3,10 +3,11 @@ package com.twente.game;
 public class Player {
 
     private String name;
-    private String colour;
 
-    public Player(String name, String colour) {
+    Colour colour = new Colour();
+
+    public Player(int i) {
         this.name = name;
-        this.colour = colour;
+
     }
 }
