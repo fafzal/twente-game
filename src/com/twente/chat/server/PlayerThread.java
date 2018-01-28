@@ -3,12 +3,12 @@ package com.twente.chat.server;
 import java.io.*;
 import java.net.Socket;
 
-public class UserThread extends Thread {
+public class PlayerThread extends Thread {
     private Socket socket;
     private ChatServer server;
     private PrintWriter writer;
 
-    public UserThread(Socket socket, ChatServer server) {
+    public PlayerThread(Socket socket, ChatServer server) {
         this.socket = socket;
         this.server = server;
     }
@@ -23,25 +23,28 @@ public class UserThread extends Thread {
 
             printUsers();
 
-            String userName = reader.readLine();
-            server.addUserName(userName);
+            String playerName = reader.readLine();
+            server.playerName(playerName);
 
-            String serverMessage = "New user connected: " + userName;
+            String serverMessage = "New player connected: " + playerName;
             server.broadcast(serverMessage, this);
 
             String clientMessage;
 
             do {
                 clientMessage = reader.readLine();
-                serverMessage = "[" + userName + "]: " + clientMessage;
-                server.broadcast(serverMessage, this);
+//                serverMessage = "[" + playerName + "]: " + clientMessage;
+//                server.broadcast(serverMessage, this);
+
+                getCommand(playerName, clientMessage);
+
 
             } while (!clientMessage.equals("bye"));
 
-            server.removeUser(userName, this);
+            server.removePlayer(playerName, this);
             socket.close();
 
-            serverMessage = userName + " has quitted.";
+            serverMessage = playerName + " has quitted.";
             server.broadcast(serverMessage, this);
 
         } catch (IOException ex) {
@@ -50,12 +53,28 @@ public class UserThread extends Thread {
         }
     }
 
+    private void getCommand(String playerName, String clientMessage) throws IOException {
+
+        if (clientMessage.equals("hello")) {
+            server.broadcast("hello", this);
+
+        } else if (clientMessage.equals("start")) {
+            server.setPlayers();
+            server.startCommand(this);
+
+        } else if (clientMessage.contains("move")) {
+            String[] arr = clientMessage.split(",");
+            server.move(playerName, arr[1], arr[2], arr[3], arr[4]);
+        }
+
+    }
+
     /**
      * Sends a list of online users to the newly connected user.
      */
     void printUsers() {
         if (server.hasUsers()) {
-            writer.println("Connected users: " + server.getUserNames());
+            writer.println("Connected users: " + server.getPlayers());
         } else {
             writer.println("No other users connected");
         }

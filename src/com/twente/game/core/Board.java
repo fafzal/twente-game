@@ -36,6 +36,10 @@ public class Board {
         return boardArray;
     }
 
+    public void setPlayers(List <String> players) {
+        this.players = players;
+    }
+
     private void initialize() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {

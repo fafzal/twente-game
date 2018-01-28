@@ -1,15 +1,21 @@
 package com.twente.chat.server;
 
+import com.twente.game.core.Board;
+import com.twente.game.helper.Color;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ChatServer {
     private int port;
-    private Set <String> userNames = new HashSet <>();
-    private Set <UserThread> userThreads = new HashSet <>();
+    private List <String> players = new ArrayList <String>();
+    private Set <PlayerThread> playerThreads = new HashSet <>();
+    private Board board;
 
     public ChatServer(int port) {
         this.port = port;
@@ -24,8 +30,8 @@ public class ChatServer {
                 Socket socket = serverSocket.accept();
                 System.out.println("New user connected");
 
-                UserThread newUser = new UserThread(socket, this);
-                userThreads.add(newUser);
+                PlayerThread newUser = new PlayerThread(socket, this);
+                playerThreads.add(newUser);
                 newUser.start();
 
             }
@@ -48,43 +54,66 @@ public class ChatServer {
         server.execute();
     }
 
+    void setPlayers() {
+        board = new Board(players);
+    }
+
     /**
      * Delivers a message from one user to others (broadcasting)
      */
-    void broadcast(String message, UserThread excludeUser) {
-        for (UserThread aUser : userThreads) {
-            if (aUser != excludeUser) {
+    void broadcast(String message, PlayerThread player) {
+        for (PlayerThread aUser : playerThreads) {
+            if (aUser == player) {
                 aUser.sendMessage(message);
             }
+        }
+    }
+
+    void broadcast(String message) {
+        for (PlayerThread player : playerThreads) {
+            player.sendMessage(message);
         }
     }
 
     /**
      * Stores username of the newly connected client.
      */
-    void addUserName(String userName) {
-        userNames.add(userName);
+    void playerName(String userName) {
+        players.add(userName);
     }
 
     /**
      * When a client is disconneted, removes the associated username and UserThread
      */
-    void removeUser(String userName, UserThread aUser) {
-        boolean removed = userNames.remove(userName);
+    void removePlayer(String userName, PlayerThread aUser) {
+        boolean removed = players.remove(userName);
         if (removed) {
-            userThreads.remove(aUser);
+            playerThreads.remove(aUser);
             System.out.println("The user " + userName + " quitted");
         }
     }
 
-    Set <String> getUserNames() {
-        return this.userNames;
+    List <String> getPlayers() {
+        return this.players;
     }
 
     /**
      * Returns true if there are other users connected (not count the currently connected user)
      */
     boolean hasUsers() {
-        return !this.userNames.isEmpty();
+        return !this.players.isEmpty();
+    }
+
+    public void startCommand(PlayerThread excludePlayer) {
+        String names = "";
+        for (String player : players) {
+            names += player + " , ";
+        }
+        names = names.substring(0, names.lastIndexOf(","));
+        broadcast(names);
+    }
+
+    public void move(String player, String x, String y, String size, String color) {
+        board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
     }
 }

@@ -39,7 +39,22 @@ public class WriteThread extends Thread {
 
         do {
             System.out.println("[" + userName + "]: ");
+            System.out.println("Enter command: ");
             text = scanner.nextLine();
+            switch (text) {
+
+                case "hello":
+                    writer.println("hello");
+                    break;
+
+                case "start":
+                    writer.println("start");
+                    break;
+                case "move":
+                    text = scanner.nextLine();
+                    writer.println("move," + text);
+                    break;
+            }
             writer.println(text);
 
         } while (!text.equals("bye"));
