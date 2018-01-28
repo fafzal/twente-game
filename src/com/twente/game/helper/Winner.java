@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Winner {
-
     private List <String> players;
 
     public Winner(List <String> players) {
@@ -42,7 +41,7 @@ public class Winner {
 
         boolean isEmpty = true;
 
-        if (!(x >= 0 && x <= 5 && y >= 0 && y <= 5)) {
+        if (!(x >= 0 && x < 5 && y >= 0 && y < 5)) {
             return false;
         }
 
@@ -79,7 +78,6 @@ public class Winner {
         }
         return isEmpty;
     }
-
 
     
 }

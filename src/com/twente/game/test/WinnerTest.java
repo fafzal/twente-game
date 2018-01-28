@@ -1,5 +1,6 @@
 package com.twente.game.test;
 
+import com.twente.game.helper.SingleMove;
 import com.twente.game.helper.Winner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,16 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WinnerTest {
 
-    Winner winner = new Winner();
+    Winner winner;
 
     Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
     Map <String, List <Integer>> userMap = new HashMap <>();
+    private SingleMove s;
 
 
     @BeforeEach
@@ -36,6 +36,14 @@ public class WinnerTest {
 
     @Test
     public void testPlayer2Winner() {
+
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+        players.add("player3");
+        players.add("player4");
+
+        winner = new Winner(players);
 
         List <Integer> player1 = new ArrayList <>();
         List <Integer> player2 = new ArrayList <>();
@@ -61,6 +69,14 @@ public class WinnerTest {
 
     @Test
     public void testPlayer4Winner() {
+
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+        players.add("player3");
+        players.add("player4");
+
+        winner = new Winner(players);
 
 
         List <Integer> player1 = new ArrayList <>();
@@ -88,6 +104,15 @@ public class WinnerTest {
 
     @Test
     public void testPlayer3Winner() {
+
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+        players.add("player3");
+        players.add("player4");
+
+        winner = new Winner(players);
+
         List <Integer> player1 = new ArrayList <>();
         List <Integer> player2 = new ArrayList <>();
         List <Integer> player3 = new ArrayList <>();
@@ -114,13 +139,45 @@ public class WinnerTest {
 
     @Test
     void scanBoard2Player() {
-        boolean actual = winner.isValidMove("player", 3, 4, 2, boardIndex);
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+
+        winner = new Winner(players);
+        s = new SingleMove(players);
+        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
+        boolean actual = winner.isValidMove("player1", 2, 3, 2, boardIndex);
         assertTrue(actual);
+        assertTrue(actual1);
     }
     @Test
     void scanBoardStartBase() {
+
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+
+        winner = new Winner(players);
+
         boolean result = winner.isValidMoveForBase("player", 7,6,2, boardIndex);
         assertFalse(result);
+
+
+    }
+
+    @Test
+    void scanBoard2Player_() {
+        List <String> players = new ArrayList <>();
+        players.add("player1");
+        players.add("player2");
+
+        winner = new Winner(players);
+        s = new SingleMove(players);
+        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
+        boolean actual = winner.isValidMove("player1", -2, 3, 2, boardIndex);
+        assertFalse(actual);
+        assertTrue(actual1);
+
     }
 }
 
