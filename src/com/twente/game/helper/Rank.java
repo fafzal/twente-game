@@ -1,10 +1,9 @@
 package com.twente.game.helper;
 
 public class Rank {
-    private int rank;
+    Winner winner;
 
-    public Rank(int rank) {
-        this.rank = rank;
 
-    }
+    
+
 }

@@ -8,6 +8,12 @@ public class PlayerThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
 
+    public String getPlayer() {
+        return player;
+    }
+
+    private String player;
+
     public PlayerThread(Socket socket, ChatServer server) {
         this.socket = socket;
         this.server = server;
@@ -24,6 +30,7 @@ public class PlayerThread extends Thread {
             printUsers();
 
             String playerName = reader.readLine();
+            player = playerName;
             server.playerName(playerName);
 
             String serverMessage = "New player connected: " + playerName;
@@ -64,7 +71,14 @@ public class PlayerThread extends Thread {
 
         } else if (clientMessage.contains("move")) {
             String[] arr = clientMessage.split(",");
-            server.move(playerName, arr[1], arr[2], arr[3], arr[4]);
+            boolean isMoveDone = server.move(playerName, arr[1], arr[2], arr[3], arr[4]);
+            if(isMoveDone){
+                server.broadcast("move_done", this);
+                server.broadcastDoMove("do_move",this);
+                server.broadResultOfMove("results", this);
+            } else{
+                server.broadcast("error",this);
+            }
         }
 
     }

@@ -2,6 +2,7 @@ package com.twente.chat.server;
 
 import com.twente.game.core.Board;
 import com.twente.game.helper.Color;
+import com.twente.game.helper.Rank;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,6 +17,7 @@ public class ChatServer {
     private List <String> players = new ArrayList <String>();
     private Set <PlayerThread> playerThreads = new HashSet <>();
     private Board board;
+    private Rank rank;
 
     public ChatServer(int port) {
         this.port = port;
@@ -69,6 +71,22 @@ public class ChatServer {
         }
     }
 
+    void broadcastDoMove(String message, PlayerThread player) {
+        for (PlayerThread aUser : playerThreads) {
+            if (aUser != player) {
+                aUser.sendMessage(message);
+            }
+        }
+    }
+    void broadcastResultOfMove(String message, PlayerThread player) {
+        for (PlayerThread aUser : playerThreads) {
+            if (aUser == player) {
+                aUser.sendMessage(message);
+
+            }
+        }
+    }
+
     void broadcast(String message) {
         for (PlayerThread player : playerThreads) {
             player.sendMessage(message);
@@ -113,7 +131,8 @@ public class ChatServer {
         broadcast(names);
     }
 
-    public void move(String player, String x, String y, String size, String color) {
-        board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
+    public boolean move(String player, String x, String y, String size, String color) {
+        return board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
     }
+
 }
