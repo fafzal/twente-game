@@ -1,6 +1,5 @@
 package com.twente.game.test;
 
-import com.twente.game.helper.SingleMove;
 import com.twente.game.helper.Winner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WinnerTest {
 
@@ -18,7 +17,6 @@ public class WinnerTest {
 
     Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
     Map <String, List <Integer>> userMap = new HashMap <>();
-    private SingleMove s;
 
 
     @BeforeEach
@@ -62,9 +60,8 @@ public class WinnerTest {
 
         boardIndex[0][0] = userMap;
 
-
-        String winner = this.winner.decideWinner(boardIndex[0][0]);
-        assertEquals("player2 win", winner);
+        String result = winner.decideWinner(boardIndex[0][0]);
+        assertEquals("player2 win", result);
     }
 
     @Test
@@ -131,56 +128,11 @@ public class WinnerTest {
 
         boardIndex[0][0]= userMap;
 
-        String winner = this.winner.decideWinner(boardIndex[0][0]);
-        assertEquals("player2 win", winner);
+        String result = winner.decideWinner(boardIndex[0][0]);
+        assertEquals("player2 win", result);
 
     }
 
-
-    @Test
-    void scanBoard2Player() {
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
-
-        winner = new Winner(players);
-        s = new SingleMove(players);
-        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = winner.isValidCoordinates("player1", 2, 3, 2, boardIndex);
-        boolean actual2 = winner.isValidCoordinates("player1", 2,3,2,boardIndex);
-        assertFalse(actual2);
-        assertFalse(actual);
-        assertTrue(actual1);
-    }
-    @Test
-    void scanBoardStartBase() {
-
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
-
-        winner = new Winner(players);
-
-        boolean result = winner.isValidMoveForBase("player", 7,6,2, boardIndex);
-        assertFalse(result);
-
-
-    }
-
-    @Test
-    void scanBoard2Player_() {
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
-
-        winner = new Winner(players);
-        s = new SingleMove(players);
-        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = winner.isValidCoordinates("player1", -2, 3, 2, boardIndex);
-        assertFalse(actual);
-        assertTrue(actual1);
-
-    }
 }
 
 

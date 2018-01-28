@@ -4,7 +4,7 @@ public class Player {
 
     private String name;
 
-    Colour colour = new Colour();
+    Color colour;
 
     public Player(int i) {
         this.name = name;
