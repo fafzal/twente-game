@@ -25,6 +25,10 @@ public class Board {
     }
 
 
+    public Map <String, List <Integer>>[][] getBoardArray() {
+        return boardArray;
+    }
+
     private void initialize() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {

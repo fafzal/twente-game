@@ -146,8 +146,10 @@ public class WinnerTest {
         winner = new Winner(players);
         s = new SingleMove(players);
         boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = winner.isValidMove("player1", 2, 3, 2, boardIndex);
-        assertTrue(actual);
+        boolean actual = winner.isValidCoordinates("player1", 2, 3, 2, boardIndex);
+        boolean actual2 = winner.isValidCoordinates("player1", 2,3,2,boardIndex);
+        assertFalse(actual2);
+        assertFalse(actual);
         assertTrue(actual1);
     }
     @Test
@@ -174,7 +176,7 @@ public class WinnerTest {
         winner = new Winner(players);
         s = new SingleMove(players);
         boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = winner.isValidMove("player1", -2, 3, 2, boardIndex);
+        boolean actual = winner.isValidCoordinates("player1", -2, 3, 2, boardIndex);
         assertFalse(actual);
         assertTrue(actual1);
 

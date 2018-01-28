@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BoardTest {
@@ -40,11 +41,18 @@ public class BoardTest {
 
     @Test
     void testSingleMove() {
-        boolean isMove1 = board.applySingleMove("player1", 0, 3, 1, Color.YELLOW);
-        boolean isMove2 = board.applySingleMove("player2", 0, 3, 2, Color.GREEN);
 
+        boolean isValidMove1 = winner.isValidCoordinates("player1", 2, 3, 2, board.getBoardArray());
+        boolean isMove1 = board.applySingleMove("player1", 2, 3, 2, Color.YELLOW);
+
+        boolean isValidMove2 = winner.isValidCoordinates("player1", 2, 3, 2, board.getBoardArray());
+        boolean isMove2 = board.applySingleMove("player1", 2, 3, 2, Color.YELLOW);
+
+        assertTrue(isValidMove1);
         assertTrue(isMove1);
-        assertTrue(isMove2);
+
+        assertFalse(isValidMove2);
+        assertFalse(isMove2);
 
 
     }

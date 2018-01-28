@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Winner {
     private List <String> players;
+    private int move1;
 
     public Winner(List <String> players) {
         this.players = players;
@@ -37,19 +38,32 @@ public class Winner {
     }
 
 
-    public boolean isValidMove(String player, int x, int y, int move, Map <String, List <Integer>>[][] board) {
+    public boolean isValidCoordinates(String player, int x, int y, int move, Map <String, List <Integer>>[][] board) {
 
-        boolean isEmpty = true;
+        boolean isEmpty =true;
 
-        if (!(x >= 0 && x < 5 && y >= 0 && y < 5)) {
+        if (!(x >= 0 && x <= 5 && y >= 0 && y <= 5)) {
             return false;
         }
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Map <String, List <Integer>> element = board[i][j];
-                if (element.containsKey(player) && isEmpty == false) {
+                if (element != null && element.containsKey(player)){
                     isEmpty = false;
+                }
+
+            }
+        }
+
+        if(isEmpty){
+            return true;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                Map <String, List <Integer>> element = board[i][j];
+                if (element != null && element.containsKey(player)) {
                     if ((i - 1 == x || i + 1 == x) && (j - 1 == y || j + 1 == y)) {
                         return true;
                     }
@@ -58,7 +72,7 @@ public class Winner {
             }
         }
 
-        return isEmpty;
+        return false;
 
     }
 
