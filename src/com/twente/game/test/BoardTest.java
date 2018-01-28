@@ -18,7 +18,7 @@ public class BoardTest {
 
     private Board board;
     private SingleMove singleMove;
-    private Winner winner = new Winner();
+    private Winner winner;
 
     private Map <String, List <Integer>> boardArray[][] = new HashMap[5][5];
     private Map <String, List <Integer>> moveMap = new HashMap <>();
@@ -29,6 +29,7 @@ public class BoardTest {
     void setUp() {
         initializePlayers();
         singleMove = new SingleMove(players);
+        winner = new Winner(players);
         board = new Board(players);
     }
 

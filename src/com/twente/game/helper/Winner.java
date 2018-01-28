@@ -6,13 +6,18 @@ import java.util.Map;
 
 public class Winner {
 
+    private List <String> players;
+
+    public Winner(List <String> players) {
+        this.players = players;
+    }
 
     public String decideWinner(Map <String, List <Integer>> userMoveMap) {
 
-        List <Integer> player1 = userMoveMap.get("player1");
-        List <Integer> player2 = userMoveMap.get("player2");
-        List <Integer> player3 = userMoveMap.get("player3");
-        List <Integer> player4 = userMoveMap.get("player4");
+        List <Integer> player1 = userMoveMap.get(players.get(0));
+        List <Integer> player2 = userMoveMap.get(players.get(1));
+        List <Integer> player3 = userMoveMap.get(players.get(2));
+        List <Integer> player4 = userMoveMap.get(players.get(3));
 
         return winner(player1, player2, player3, player4);
 
