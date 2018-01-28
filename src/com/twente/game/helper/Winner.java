@@ -1,10 +1,10 @@
-package com.twente.game;
+package com.twente.game.helper;
 
 
 import java.util.List;
 import java.util.Map;
 
-public class Board {
+public class Winner {
 
 
     public String decideWinner(Map <String, List <Integer>> userMoveMap) {

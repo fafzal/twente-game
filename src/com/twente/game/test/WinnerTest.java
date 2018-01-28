@@ -1,5 +1,6 @@
-package com.twente.game;
+package com.twente.game.test;
 
+import com.twente.game.helper.Winner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BoardTest {
+public class WinnerTest {
 
-    Board board = new Board();
+    Winner winner = new Winner();
 
     Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
     Map <String, List <Integer>> userMap = new HashMap <>();
@@ -23,7 +24,6 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         initialize();
-//        boardIndex[0][0] =userMap;
     }
 
     private void initialize() {
@@ -55,7 +55,7 @@ public class BoardTest {
         boardIndex[0][0] = userMap;
 
 
-        String winner = board.decideWinner(boardIndex[0][0]);
+        String winner = this.winner.decideWinner(boardIndex[0][0]);
         assertEquals("player2 win", winner);
     }
 
@@ -80,7 +80,7 @@ public class BoardTest {
 
         boardIndex[0][0]= userMap;
 
-        String draw = board.decideWinner(boardIndex[0][0]);
+        String draw = winner.decideWinner(boardIndex[0][0]);
         assertEquals("draw", draw);
 
 
@@ -106,7 +106,7 @@ public class BoardTest {
 
         boardIndex[0][0]= userMap;
 
-        String winner = board.decideWinner(boardIndex[0][0]);
+        String winner = this.winner.decideWinner(boardIndex[0][0]);
         assertEquals("player2 win", winner);
 
     }
@@ -114,12 +114,12 @@ public class BoardTest {
 
     @Test
     void scanBoard2Player() {
-        boolean actual = board.isValidMove("player", 3, 4, 2, boardIndex);
+        boolean actual = winner.isValidMove("player", 3, 4, 2, boardIndex);
         assertTrue(actual);
     }
     @Test
     void scanBoardStartBase() {
-        boolean result = board.isValidMoveForBase("player", 7,6,2, boardIndex);
+        boolean result = winner.isValidMoveForBase("player", 7,6,2, boardIndex);
         assertFalse(result);
     }
 }

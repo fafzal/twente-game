@@ -1,4 +1,4 @@
-package com.twente.game;
+package com.twente.game.helper;
 
 public class Player {
 

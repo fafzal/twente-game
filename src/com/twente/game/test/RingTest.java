@@ -1,5 +1,6 @@
-package com.twente.game;
+package com.twente.game.test;
 
+import com.twente.game.helper.Ring;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

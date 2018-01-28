@@ -1,4 +1,4 @@
-package com.twente.game;
+package com.twente.game.socket;
 
 import java.util.Map;
 
