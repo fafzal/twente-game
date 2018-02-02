@@ -84,6 +84,8 @@ public class PlayerThread extends Thread {
             } else {
                 server.sendMessageToPlayers("errorcode = 2", this);
             }
+        } else {
+            server.sendMessageToPlayers("errorcode = 4", this);
         }
 
     }
