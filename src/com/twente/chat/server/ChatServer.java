@@ -72,6 +72,14 @@ public class ChatServer {
         }
     }
 
+    void sendError(int errorCode, PlayerThread player) {
+        for (PlayerThread aUser : playerThreads) {
+            if (aUser == player) {
+                aUser.sendError("error = " + errorCode);
+            }
+        }
+    }
+
     void sendToMoveCommandToOtherPlayer(String message, PlayerThread player) {
         for (PlayerThread aUser : playerThreads) {
             if (aUser != player) {

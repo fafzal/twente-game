@@ -33,7 +33,7 @@ public class PlayerThread extends Thread {
             String playerName = reader.readLine();
 
             if (server.getPlayers().contains(playerName)) {
-                server.sendMessageToPlayers("errorcode = 3", this);
+                server.sendError(3, this);
                 return;
             }
 
@@ -82,10 +82,10 @@ public class PlayerThread extends Thread {
                 extractAndSendNotification(playerName, clientMessage);
                 setTurn(false);
             } else {
-                server.sendMessageToPlayers("errorcode = 2", this);
+                server.sendError(2, this);
             }
         } else {
-            server.sendMessageToPlayers("errorcode = 4", this);
+            server.sendError(4, this);
         }
 
     }
@@ -125,6 +125,10 @@ public class PlayerThread extends Thread {
      * Sends a message to the client.
      */
     void sendMessage(String message) {
+        writer.println(message);
+    }
+
+    void sendError(String message) {
         writer.println(message);
     }
 
