@@ -37,9 +37,9 @@ public class Winner {
         return "draw";
     }
 
-    public Map <String, Boolean> getPlayerWinnerMap(Player player, Map <String, List <Integer>>[][] board) {
+    public Map <String, Integer> getPlayerWinnerMap(Player player, Map <String, List <Integer>>[][] board) {
 
-        Map <String, Boolean> playerWinnerMap = new HashMap <>();
+        Map <String, Integer> playerWinnerMap = new HashMap <>();
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -48,12 +48,12 @@ public class Winner {
                 if (integers != null) {
                     int length = integers.size();
                     String index = "[" + i + "]" + "[" + j + "]";
-                    playerWinnerMap.put(index, true);
+                    playerWinnerMap.put(index, 1);
                     for (String playerTmp : players) {
                         if (!playerTmp.equals(player.getName())) {
                             List <Integer> userPointList = playerMap.get(playerTmp);
                             if (!userPointList.isEmpty() && length <= userPointList.size()) {
-                                playerWinnerMap.put(index, false);
+                                playerWinnerMap.put(index, 0);
                             }
                         }
                     }

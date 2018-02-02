@@ -52,8 +52,8 @@ public class WinnerTest {
         list.add(2);
         boardIndex[0][0].put("player1", list);
         Player player = new Player("player1", Color.YELLOW, new Ring());
-        Map <String, Boolean> playerIsWinnerMap = winner.getPlayerWinnerMap(player, boardIndex);
-        assertEquals(true, playerIsWinnerMap.get("[0][0]"));
+        Map <String, Integer> playerIsWinnerMap = winner.getPlayerWinnerMap(player, boardIndex);
+        assertEquals(Integer.valueOf(1), playerIsWinnerMap.get("[0][0]"));
     }
 
 
@@ -76,8 +76,8 @@ public class WinnerTest {
         boardIndex[0][0].put("player2", list);
 
         Player player = new Player("player2", Color.YELLOW, new Ring());
-        Map <String, Boolean> playerIsWinnerMap = winner.getPlayerWinnerMap(player, boardIndex);
-        assertEquals(true, playerIsWinnerMap.get("[0][0]"));
+        Map <String, Integer> playerIsWinnerMap = winner.getPlayerWinnerMap(player, boardIndex);
+        assertEquals(Integer.valueOf(1), playerIsWinnerMap.get("[0][0]"));
     }
 
 
