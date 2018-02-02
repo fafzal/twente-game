@@ -44,15 +44,21 @@ public class WriteThread extends Thread {
             switch (text) {
 
                 case "hello":
-                    writer.println("hello");
+                    writer.println(text);
                     break;
 
                 case "start":
-                    writer.println("start");
+                    text = scanner.nextLine();
+                    writer.println(text);
                     break;
+
                 case "move":
                     text = scanner.nextLine();
                     writer.println("move," + text);
+                    break;
+
+                case "player_left":
+                    writer.println(text);
                     break;
             }
             writer.println(text);
