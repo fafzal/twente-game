@@ -30,11 +30,17 @@ public class PlayerThread extends Thread {
             printUsers();
 
             String playerName = reader.readLine();
+
+            if (server.getPlayers().contains(playerName)) {
+                server.sendMessageToPlayers("errorcode = 3", this);
+                return;
+            }
+
             player = playerName;
             server.playerName(playerName);
 
-            String serverMessage = "New player connected: " + playerName;
-            server.sendMessageToPlayers(serverMessage, this);
+//            String serverMessage = "New player connected: " + playerName;
+//            server.sendMessageToPlayers(serverMessage, this);
 
             String clientMessage;
 
@@ -51,7 +57,7 @@ public class PlayerThread extends Thread {
             server.removePlayer(playerName, this);
             socket.close();
 
-            serverMessage = playerName + " has left.";
+            String serverMessage = playerName + " has left.";
             server.sendToMoveCommandToOtherPlayer(serverMessage, this);
 
         } catch (IOException ex) {
@@ -71,13 +77,21 @@ public class PlayerThread extends Thread {
 
         } else if (clientMessage.contains("move")) {
             String[] arr = clientMessage.split(",");
-            boolean isMoveDone = server.move(playerName, arr[1], arr[2], arr[3], arr[4]);
-            if(isMoveDone){
-                server.sendMessageToPlayers("move_done", this);
-                server.sendToMoveCommandToOtherPlayer("do_move", this);
-                server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
-            } else{
-                server.sendMessageToPlayers("error", this);
+            String x = arr[1];
+            String y = arr[2];
+            Integer intX = Integer.valueOf(x);
+            Integer intY = Integer.valueOf(y);
+            if ((intX >= 0 && intX < 5) || (intY >= 0 && intY < 5)) {
+                boolean isMoveDone = server.move(playerName, x, y, arr[3], arr[4]);
+                if (isMoveDone) {
+                    server.sendMessageToPlayers("move_done", this);
+                    server.sendToMoveCommandToOtherPlayer("do_move", this);
+                    server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
+                } else {
+                    server.sendMessageToPlayers("errorcode = 0", this);
+                }
+            } else {
+                server.sendMessageToPlayers("errorcode = 1", this);
             }
         }
 
