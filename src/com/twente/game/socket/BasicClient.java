@@ -1,4 +1,6 @@
-package com.twente.game.socket;
+package game;
+
+import java.io.Writer;
 
 public interface BasicClient {
 
@@ -20,7 +22,6 @@ public interface BasicClient {
 	// sent by server only
 	public static final String ERROR = "error";
 	public static final String DO_MOVE = "do_move";
-	public static final String VALID = "valid";
 	public static final String DONE_MOVE = "done_move";
 	public static final String PLAYER_LEFT = "player_left";
 	public static final String RESULTS = "results";
@@ -47,6 +48,3 @@ public interface BasicClient {
 	
 	
 }
-
-
-
