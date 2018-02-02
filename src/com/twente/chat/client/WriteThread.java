@@ -48,7 +48,6 @@ public class WriteThread extends Thread {
                     break;
 
                 case "start":
-                    text = scanner.nextLine();
                     writer.println(text);
                     break;
 

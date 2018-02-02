@@ -7,6 +7,7 @@ public class PlayerThread extends Thread {
     private Socket socket;
     private ChatServer server;
     private PrintWriter writer;
+    private boolean turn = true;
 
     public String getPlayer() {
         return player;
@@ -76,25 +77,35 @@ public class PlayerThread extends Thread {
             server.sendMessageToPlayers("start");
 
         } else if (clientMessage.contains("move")) {
-            String[] arr = clientMessage.split(",");
-            String x = arr[1];
-            String y = arr[2];
-            Integer intX = Integer.valueOf(x);
-            Integer intY = Integer.valueOf(y);
-            if ((intX >= 0 && intX < 5) || (intY >= 0 && intY < 5)) {
-                boolean isMoveDone = server.move(playerName, x, y, arr[3], arr[4]);
-                if (isMoveDone) {
-                    server.sendMessageToPlayers("move_done", this);
-                    server.sendToMoveCommandToOtherPlayer("do_move", this);
-                    server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
-                } else {
-                    server.sendMessageToPlayers("errorcode = 0", this);
-                }
+            server.resetTurns();
+            if (isTurn()) {
+                extractAndSendNotification(playerName, clientMessage);
+                setTurn(false);
             } else {
-                server.sendMessageToPlayers("errorcode = 1", this);
+                server.sendMessageToPlayers("errorcode = 2", this);
             }
         }
 
+    }
+
+    private void extractAndSendNotification(String playerName, String clientMessage) {
+        String[] arr = clientMessage.split(",");
+        String x = arr[1];
+        String y = arr[2];
+        Integer intX = Integer.valueOf(x);
+        Integer intY = Integer.valueOf(y);
+        if (intX >= 0 && intX < 5 && intY >= 0 && intY < 5) {
+            boolean isMoveDone = server.move(playerName, x, y, arr[3], arr[4]);
+            if (isMoveDone) {
+                server.sendMessageToPlayers("move_done", this);
+                server.sendToMoveCommandToOtherPlayer("do_move", this);
+                server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
+            } else {
+                server.sendMessageToPlayers("errorcode = 0", this);
+            }
+        } else {
+            server.sendMessageToPlayers("errorcode = 1", this);
+        }
     }
 
     /**
@@ -113,5 +124,13 @@ public class PlayerThread extends Thread {
      */
     void sendMessage(String message) {
         writer.println(message);
+    }
+
+    public boolean isTurn() {
+        return turn;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
     }
 }

@@ -5,14 +5,13 @@ import com.twente.game.helper.Color;
 import com.twente.game.helper.Player;
 import com.twente.game.helper.Rank;
 import com.twente.game.helper.Ring;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ChatServer {
     private int port;
@@ -130,4 +129,27 @@ public class ChatServer {
         return board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
     }
 
+    public void resetTurns() {
+        Collection <PlayerThread> select = CollectionUtils.select(playerThreads, new PlayerTurnPredicate(false));
+        if (select.size() == playerThreads.size()) {
+            for (PlayerThread playerThread : playerThreads) {
+                playerThread.setTurn(true);
+            }
+        }
+
+    }
+
+    private class PlayerTurnPredicate implements Predicate <PlayerThread> {
+
+        private boolean isTurn = false;
+
+        public PlayerTurnPredicate(boolean isTurn) {
+            this.isTurn = isTurn;
+        }
+
+        @Override
+        public boolean evaluate(PlayerThread playerThread) {
+            return isTurn == playerThread.isTurn();
+        }
+    }
 }
