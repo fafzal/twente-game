@@ -1,8 +1,6 @@
 package com.twente.game.core;
 
-import com.twente.game.helper.Color;
-import com.twente.game.helper.Coordinate;
-import com.twente.game.helper.SingleMove;
+import com.twente.game.helper.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,31 +11,22 @@ public class Board {
     SingleMove singleMove;
     Coordinate coordinate;
 
-    private List <String> players;
     private Map <String, List <Integer>> boardArray[][] = new HashMap[5][5];
 
     public Board(List <String> players) {
-        this.players = players;
         initialize();
         singleMove = new SingleMove(players);
         coordinate = new Coordinate(players);
     }
 
-    public boolean applySingleMove(String player, int x, int y, int size, Color yellow) {
+    public boolean applySingleMove(Player player, int x, int y, int size, Color yellow) {
 
-        if (coordinate.isValidCoordinates(player, x, y, boardArray)) {
+        Ring ring = player.getRing();
+        if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
+            ring.subtract(size);
             return singleMove.move(player, size, boardArray[x][y]);
         }
         return false;
-    }
-
-
-    public Map <String, List <Integer>>[][] getBoardArray() {
-        return boardArray;
-    }
-
-    public void setPlayers(List <String> players) {
-        this.players = players;
     }
 
     private void initialize() {

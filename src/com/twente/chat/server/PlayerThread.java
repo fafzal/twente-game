@@ -34,7 +34,7 @@ public class PlayerThread extends Thread {
             server.playerName(playerName);
 
             String serverMessage = "New player connected: " + playerName;
-            server.broadcast(serverMessage, this);
+            server.sendMessageToPlayers(serverMessage, this);
 
             String clientMessage;
 
@@ -46,16 +46,16 @@ public class PlayerThread extends Thread {
                 getCommand(playerName, clientMessage);
 
 
-            } while (!clientMessage.equals("bye"));
+            } while (!clientMessage.equals("player_left"));
 
             server.removePlayer(playerName, this);
             socket.close();
 
-            serverMessage = playerName + " has quitted.";
-            server.broadcast(serverMessage, this);
+            serverMessage = playerName + " has left.";
+            server.sendToMoveCommandToOtherPlayer(serverMessage, this);
 
         } catch (IOException ex) {
-            System.out.println("Error in UserThread: " + ex.getMessage());
+            System.out.println("Error in PlayerThread: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -63,21 +63,21 @@ public class PlayerThread extends Thread {
     private void getCommand(String playerName, String clientMessage) throws IOException {
 
         if (clientMessage.equals("hello")) {
-            server.broadcast("hello", this);
+            server.sendMessageToPlayers("hello", this);
 
         } else if (clientMessage.equals("start")) {
             server.setPlayers();
-            server.startCommand(this);
+            server.sendMessageToPlayers("start");
 
         } else if (clientMessage.contains("move")) {
             String[] arr = clientMessage.split(",");
             boolean isMoveDone = server.move(playerName, arr[1], arr[2], arr[3], arr[4]);
             if(isMoveDone){
-                server.broadcast("move_done", this);
-                server.broadcastDoMove("do_move",this);
-                server.broadResultOfMove("results", this);
+                server.sendMessageToPlayers("move_done", this);
+                server.sendToMoveCommandToOtherPlayer("do_move", this);
+                server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
             } else{
-                server.broadcast("error",this);
+                server.sendMessageToPlayers("error", this);
             }
         }
 

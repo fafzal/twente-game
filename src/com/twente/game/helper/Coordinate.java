@@ -11,7 +11,7 @@ public class Coordinate {
         this.players = players;
     }
 
-    public boolean isValidCoordinates(String player, int x, int y, Map <String, List <Integer>>[][] board) {
+    public boolean isValidCoordinates(Player player, int x, int y, Map <String, List <Integer>>[][] board) {
 
         boolean isEmpty =true;
 
@@ -22,7 +22,7 @@ public class Coordinate {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Map <String, List <Integer>> element = board[i][j];
-                if (element != null && element.containsKey(player)){
+                if (element != null && element.containsKey(player.getName())){
                     isEmpty = false;
                 }
 
@@ -36,7 +36,7 @@ public class Coordinate {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 Map <String, List <Integer>> element = board[i][j];
-                if (element != null && element.containsKey(player)) {
+                if (element != null && element.containsKey(player.getName())) {
                     if ((i - 1 < x || i + 1 > x) && (j - 1 < y || j + 1 > y)) {
                         return true;
                     }

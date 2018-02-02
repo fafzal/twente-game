@@ -1,5 +1,6 @@
 package com.twente.game.helper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,5 +35,31 @@ public class Winner {
             return "player4 win";
         }
         return "draw";
+    }
+
+    public Map <String, Boolean> getPlayerWinnerMap(Player player, Map <String, List <Integer>>[][] board) {
+
+        Map <String, Boolean> playerWinnerMap = new HashMap <>();
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                Map <String, List <Integer>> playerMap = board[i][j];
+                List <Integer> integers = playerMap.get(player.getName());
+                if (integers != null) {
+                    int length = integers.size();
+                    String index = "[" + i + "]" + "[" + j + "]";
+                    playerWinnerMap.put(index, true);
+                    for (String playerTmp : players) {
+                        if (!playerTmp.equals(player.getName())) {
+                            List <Integer> userPointList = playerMap.get(playerTmp);
+                            if (!userPointList.isEmpty() && length <= userPointList.size()) {
+                                playerWinnerMap.put(index, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return playerWinnerMap;
     }
 }

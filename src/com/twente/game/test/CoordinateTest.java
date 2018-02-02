@@ -1,7 +1,6 @@
 package com.twente.game.test;
 
-import com.twente.game.helper.Coordinate;
-import com.twente.game.helper.SingleMove;
+import com.twente.game.helper.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,16 +14,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CoordinateTest {
 
-    Coordinate coordinate;
-
-    Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
-    Map <String, List <Integer>> userMap = new HashMap <>();
+    private Coordinate coordinate;
+    private Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
+    private Map <String, List <Integer>> userMap = new HashMap <>();
     private SingleMove s;
+    private Player player;
 
 
     @BeforeEach
     void setUp() {
         initialize();
+        player = new Player("player1", Color.YELLOW, new Ring());
     }
 
     private void initialize() {
@@ -43,12 +43,15 @@ public class CoordinateTest {
 
         coordinate = new Coordinate(players);
         s = new SingleMove(players);
-        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = coordinate.isValidCoordinates("player1", 2, 3, boardIndex);
-        boolean actual2 = coordinate.isValidCoordinates("player1", 2, 3, boardIndex);
-        assertFalse(actual2);
-        assertFalse(actual);
-        assertTrue(actual1);
+
+        boolean actual = coordinate.isValidCoordinates(player, 2, 3, boardIndex);
+        boolean actualMove1 = s.move(player, 2, boardIndex[2][3]);
+        boolean actual2 = coordinate.isValidCoordinates(player, 2, 3, boardIndex);
+        boolean actualMove2 =  s.move(player, 2, boardIndex[2][3]);
+        assertTrue(actual);
+        assertTrue(actualMove1);
+        assertTrue(actual2);
+        assertFalse(actualMove2);
     }
 
     @Test
@@ -74,8 +77,8 @@ public class CoordinateTest {
 
         coordinate = new Coordinate(players);
         s = new SingleMove(players);
-        boolean actual1 = s.move("player1", 2, boardIndex[2][3]);
-        boolean actual = coordinate.isValidCoordinates("player1", -2, 3, boardIndex);
+        boolean actual1 = s.move(player, 2, boardIndex[2][3]);
+        boolean actual = coordinate.isValidCoordinates(player, -2, 3, boardIndex);
         assertFalse(actual);
         assertTrue(actual1);
 

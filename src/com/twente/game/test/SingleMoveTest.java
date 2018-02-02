@@ -1,5 +1,8 @@
 package com.twente.game.test;
 
+import com.twente.game.helper.Color;
+import com.twente.game.helper.Player;
+import com.twente.game.helper.Ring;
 import com.twente.game.helper.SingleMove;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,14 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SingleMoveTest {
 
-    SingleMove board;
-
-    Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
-    Map <String, List <Integer>> userMap = new HashMap <>();
+    private SingleMove board;
+    private Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
+    private Map <String, List <Integer>> userMap = new HashMap <>();
+    private Player player, player2, player3;
 
     @BeforeEach
     void setUp() {
         boardIndex[0][0] = userMap;
+        player = new Player("player1", Color.YELLOW, new Ring());
+        player2 = new Player("player2", Color.YELLOW, new Ring());
+        player3 = new Player("player3", Color.YELLOW, new Ring());
     }
 
     @Test
@@ -32,7 +38,7 @@ public class SingleMoveTest {
         board = new SingleMove(players);
 
         boolean result;
-        result = board.move("player1", 2, boardIndex[0][0]);
+        result = board.move(player, 2, boardIndex[0][0]);
         assertEquals(true, result);
     }
 
@@ -48,8 +54,8 @@ public class SingleMoveTest {
 
         boolean result, result2;
 
-        result = board.move("player1", 2, boardIndex[0][0]);
-        result2 = board.move("player2", 2, boardIndex[0][0]);
+        result = board.move(player, 2, boardIndex[0][0]);
+        result2 = board.move(player2, 2, boardIndex[0][0]);
 
         assertEquals(true, result);
         assertEquals(false, result2);
@@ -67,9 +73,9 @@ public class SingleMoveTest {
 
         boolean result, result2, result3;
 
-        result = board.move("player1", 2, boardIndex[0][0]);
-        result2 = board.move("player2", 3, boardIndex[0][0]);
-        result3 = board.move("player3", 3, boardIndex[0][0]);
+        result = board.move(player, 2, boardIndex[0][0]);
+        result2 = board.move(player2, 3, boardIndex[0][0]);
+        result3 = board.move(player3, 3, boardIndex[0][0]);
 
 
         assertEquals(true, result);

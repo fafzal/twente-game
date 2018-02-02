@@ -2,7 +2,9 @@ package com.twente.chat.server;
 
 import com.twente.game.core.Board;
 import com.twente.game.helper.Color;
+import com.twente.game.helper.Player;
 import com.twente.game.helper.Rank;
+import com.twente.game.helper.Ring;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -63,7 +65,7 @@ public class ChatServer {
     /**
      * Delivers a message from one user to others (broadcasting)
      */
-    void broadcast(String message, PlayerThread player) {
+    void sendMessageToPlayers(String message, PlayerThread player) {
         for (PlayerThread aUser : playerThreads) {
             if (aUser == player) {
                 aUser.sendMessage(message);
@@ -71,14 +73,15 @@ public class ChatServer {
         }
     }
 
-    void broadcastDoMove(String message, PlayerThread player) {
+    void sendToMoveCommandToOtherPlayer(String message, PlayerThread player) {
         for (PlayerThread aUser : playerThreads) {
             if (aUser != player) {
                 aUser.sendMessage(message);
             }
         }
     }
-    void broadcastResultOfMove(String message, PlayerThread player) {
+
+    void sendDoneMoveCommandToCurrentPlayer(String message, PlayerThread player) {
         for (PlayerThread aUser : playerThreads) {
             if (aUser == player) {
                 aUser.sendMessage(message);
@@ -87,7 +90,7 @@ public class ChatServer {
         }
     }
 
-    void broadcast(String message) {
+    void sendMessageToPlayers(String message) {
         for (PlayerThread player : playerThreads) {
             player.sendMessage(message);
         }
@@ -122,16 +125,8 @@ public class ChatServer {
         return !this.players.isEmpty();
     }
 
-    public void startCommand(PlayerThread excludePlayer) {
-        String names = "";
-        for (String player : players) {
-            names += player + " , ";
-        }
-        names = names.substring(0, names.lastIndexOf(","));
-        broadcast(names);
-    }
-
-    public boolean move(String player, String x, String y, String size, String color) {
+    public boolean move(String name, String x, String y, String size, String color) {
+        Player player = new Player(name, Color.YELLOW, new Ring());
         return board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
     }
 

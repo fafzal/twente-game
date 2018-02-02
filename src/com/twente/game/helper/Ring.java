@@ -62,4 +62,21 @@ public class Ring {
             subtractHuge();
         }
     }
+
+    // if start tile has already been placed then this will happen.
+    public int getRoundLeft(int ring) {
+        if (ring == 0) {
+            return getBaseTile();
+        } else if (ring == 1) {
+            return getSmall();
+        } else if (ring == 2) {
+            return getMedium();
+        } else if (ring == 3) {
+            return getBig();
+        } else {
+            return getHuge();
+        }
+
+    }
+
 }

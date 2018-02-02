@@ -1,6 +1,5 @@
-package game;
+package com.twente.game.socket;
 
-import java.io.Writer;
 import java.util.Map;
 
 public interface BasicServer {

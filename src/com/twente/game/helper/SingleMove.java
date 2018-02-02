@@ -15,14 +15,14 @@ public class SingleMove {
 
     }
 
-    public boolean move(String player, int move, Map <String, List <Integer>> userMap) {
+    public boolean move(Player player, int move, Map <String, List <Integer>> userMap) {
 
         if (!isSameMoveAlreadyExits(userMap, move)) {
-            List <Integer> moveList = userMap.get(player);
+            List <Integer> moveList = userMap.get(player.getName());
             if (moveList == null) {
                 moveList = new ArrayList <>();
                 moveList.add(move);
-                userMap.put(player, moveList);
+                userMap.put(player.getName(), moveList);
             } else {
                 moveList.add(move);
             }
