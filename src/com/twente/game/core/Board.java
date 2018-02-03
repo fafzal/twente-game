@@ -10,6 +10,7 @@ public class Board {
 
     SingleMove singleMove;
     Coordinate coordinate;
+    Winner winner;
 
     private Map <String, List <Integer>> boardArray[][] = new HashMap[5][5];
 
@@ -17,6 +18,7 @@ public class Board {
         initialize();
         singleMove = new SingleMove(players);
         coordinate = new Coordinate(players);
+        winner = new Winner(players);
     }
 
     public boolean applySingleMove(Player player, int x, int y, int size, Color yellow) {
@@ -27,6 +29,14 @@ public class Board {
             return singleMove.move(player, size, boardArray[x][y]);
         }
         return false;
+    }
+
+    public Map <String, Integer> getPlayerPointsMap(Player player) {
+        return winner.getPlayerPointsMap(player, boardArray);
+    }
+
+    public Map <String, Integer> getPlayerRingsMap(Player player) {
+        return winner.getPlayerRingsMap(player);
     }
 
     private void initialize() {

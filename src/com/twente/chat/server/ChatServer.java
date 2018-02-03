@@ -3,8 +3,7 @@ package com.twente.chat.server;
 import com.twente.game.core.Board;
 import com.twente.game.helper.Color;
 import com.twente.game.helper.Player;
-import com.twente.game.helper.Rank;
-import com.twente.game.helper.Ring;
+import com.twente.game.helper.Winner;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 
@@ -18,7 +17,7 @@ public class ChatServer {
     private List <String> players = new ArrayList <String>();
     private Set <PlayerThread> playerThreads = new HashSet <>();
     private Board board;
-    private Rank rank;
+    private Winner winner;
 
     public ChatServer(int port) {
         this.port = port;
@@ -27,11 +26,11 @@ public class ChatServer {
     public void execute() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
-            System.out.println("Chat Server is listening on port " + port);
+            System.out.println("Server is listening on port " + port);
 
             while (true) {
                 Socket socket = serverSocket.accept();
-                System.out.println("New user connected");
+                System.out.println("New player connected");
 
                 PlayerThread newUser = new PlayerThread(socket, this);
                 playerThreads.add(newUser);
@@ -47,7 +46,7 @@ public class ChatServer {
 
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println("Syntax: java ChatServer <port-number>");
+            System.out.println("Syntax: java Server <port-number>");
             System.exit(0);
         }
 
@@ -59,6 +58,7 @@ public class ChatServer {
 
     void setPlayers() {
         board = new Board(players);
+        winner = new Winner(players);
     }
 
     /**
@@ -132,8 +132,7 @@ public class ChatServer {
         return !this.players.isEmpty();
     }
 
-    public boolean move(String name, String x, String y, String size, String color) {
-        Player player = new Player(name, Color.YELLOW, new Ring());
+    public boolean move(Player player, String x, String y, String size, String color) {
         return board.applySingleMove(player, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(size), Color.YELLOW);
     }
 
@@ -145,6 +144,15 @@ public class ChatServer {
             }
         }
 
+    }
+
+    public void sendResults(PlayerThread playerThread) {
+
+        for (PlayerThread aUser : playerThreads) {
+            if (aUser != playerThread) {
+                aUser.sendMessage("Name = " + aUser.getPlayer().getName() + ", PointsMap = " + board.getPlayerPointsMap(aUser.getPlayer()) + ", RingsMap = " + board.getPlayerRingsMap(aUser.getPlayer()));
+            }
+        }
     }
 
     private class PlayerTurnPredicate implements Predicate <PlayerThread> {

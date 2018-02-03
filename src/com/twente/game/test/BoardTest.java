@@ -7,15 +7,16 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
 
     private Board board;
     private SingleMove singleMove;
     private Coordinate coordinate;
+    private Winner winner;
     private List <String> players = new ArrayList <>();
     private Player player;
 
@@ -80,6 +81,22 @@ public class BoardTest {
         assertTrue(isMove2);
         assertTrue(isMove3);
         assertFalse(isMove4);
+
+    }
+
+    @Test
+    void testPlayer2RingWinner() {
+
+        winner = new Winner(players);
+        boolean isMove1 = board.applySingleMove(player, 1, 3, 2, Color.YELLOW);
+        boolean isMove2 = board.applySingleMove(player, 2, 3, 1, Color.YELLOW);
+
+        Map <String, Integer> playerIsWinnerMap = winner.getPlayerRingsMap(player);
+
+        assertTrue(isMove1);
+        assertTrue(isMove2);
+        assertEquals(Integer.valueOf(2), playerIsWinnerMap.get("2"));
+        assertEquals(Integer.valueOf(2), playerIsWinnerMap.get("1"));
 
     }
 

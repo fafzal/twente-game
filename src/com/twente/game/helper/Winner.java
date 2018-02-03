@@ -12,32 +12,7 @@ public class Winner {
         this.players = players;
     }
 
-    public String decideWinner(Map <String, List <Integer>> userMoveMap) {
-
-        List <Integer> player1 = userMoveMap.get(players.get(0));
-        List <Integer> player2 = userMoveMap.get(players.get(1));
-        List <Integer> player3 = userMoveMap.get(players.get(2));
-        List <Integer> player4 = userMoveMap.get(players.get(3));
-
-        return winner(player1, player2, player3, player4);
-
-    }
-
-    private String winner(List <Integer> player1, List <Integer> player2, List <Integer> player3, List <Integer> player4) {
-
-        if (player1.size() > player2.size() && player1.size() > player3.size() && player1.size() > player4.size()) {
-            return "player1 win";
-        } else if (player2.size() > player1.size() && player2.size() > player3.size() && player2.size() > player4.size()) {
-            return "player2 win";
-        } else if (player3.size() > player1.size() && player3.size() > player2.size() && player3.size() > player4.size()) {
-            return "player3 win";
-        } else if (player4.size() > player1.size() && player4.size() > player2.size() && player4.size() > player3.size()) {
-            return "player4 win";
-        }
-        return "draw";
-    }
-
-    public Map <String, Integer> getPlayerWinnerMap(Player player, Map <String, List <Integer>>[][] board) {
+    public Map <String, Integer> getPlayerPointsMap(Player player, Map <String, List <Integer>>[][] board) {
 
         Map <String, Integer> playerWinnerMap = new HashMap <>();
 
@@ -61,5 +36,20 @@ public class Winner {
             }
         }
         return playerWinnerMap;
+    }
+
+    public Map <String, Integer> getPlayerRingsMap(Player player) {
+        Map <String, Integer> playerPointsMap = new HashMap <>();
+        Ring ring = player.getRing();
+
+        playerPointsMap.put("0", ring.getBaseTile());
+        playerPointsMap.put("1", ring.getSmall());
+        playerPointsMap.put("2", ring.getMedium());
+        playerPointsMap.put("3", ring.getBig());
+        playerPointsMap.put("4", ring.getHuge());
+
+        return playerPointsMap;
+
+
     }
 }

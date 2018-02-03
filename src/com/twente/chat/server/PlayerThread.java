@@ -1,5 +1,9 @@
 package com.twente.chat.server;
 
+import com.twente.game.helper.Color;
+import com.twente.game.helper.Player;
+import com.twente.game.helper.Ring;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -8,12 +12,11 @@ public class PlayerThread extends Thread {
     private ChatServer server;
     private PrintWriter writer;
     private boolean turn = true;
+    private Player player;
 
-    public String getPlayer() {
+    public Player getPlayer() {
         return player;
     }
-
-    private String player;
 
     public PlayerThread(Socket socket, ChatServer server) {
         this.socket = socket;
@@ -37,7 +40,7 @@ public class PlayerThread extends Thread {
                 return;
             }
 
-            player = playerName;
+            player = new Player(playerName, Color.YELLOW, new Ring());
             server.playerName(playerName);
 
 //            String serverMessage = "New player connected: " + playerName;
@@ -60,6 +63,9 @@ public class PlayerThread extends Thread {
 
             String serverMessage = playerName + " has left.";
             server.sendToMoveCommandToOtherPlayer(serverMessage, this);
+            server.sendResults(this);
+
+
 
         } catch (IOException ex) {
             System.out.println("Error in PlayerThread: " + ex.getMessage());
@@ -84,7 +90,7 @@ public class PlayerThread extends Thread {
             } else {
                 server.sendError(2, this);
             }
-        } else {
+        } else if (clientMessage.contains("errorcode")) {
             server.sendError(4, this);
         }
 
@@ -97,7 +103,7 @@ public class PlayerThread extends Thread {
         Integer intX = Integer.valueOf(x);
         Integer intY = Integer.valueOf(y);
         if (intX >= 0 && intX < 5 && intY >= 0 && intY < 5) {
-            boolean isMoveDone = server.move(playerName, x, y, arr[3], arr[4]);
+            boolean isMoveDone = server.move(player, x, y, arr[3], arr[4]);
             if (isMoveDone) {
                 server.sendMessageToPlayers("move_done", this);
                 server.sendToMoveCommandToOtherPlayer("do_move", this);
