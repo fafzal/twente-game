@@ -35,13 +35,15 @@ public class PlayerThread extends Thread {
 
             String playerName = reader.readLine();
 
-            if (server.getPlayers().contains(playerName)) {
-                server.sendError(3, this);
-                return;
+            for (Player player : server.getPlayers()) {
+                if (player.getName().equals(playerName)) {
+                    server.sendError(3, this);
+                    return;
+                }
             }
 
             player = new Player(playerName, Color.YELLOW, new Ring());
-            server.playerName(playerName);
+            server.player(player);
 
 //            String serverMessage = "New player connected: " + playerName;
 //            server.sendMessageToPlayers(serverMessage, this);
@@ -58,7 +60,7 @@ public class PlayerThread extends Thread {
 
             } while (!clientMessage.equals("player_left"));
 
-            server.removePlayer(playerName, this);
+            server.removePlayer(player, this);
             socket.close();
 
             String serverMessage = playerName + " has left.";

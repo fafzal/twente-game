@@ -14,10 +14,10 @@ public class Board {
 
     private Map <String, List <Integer>> boardArray[][] = new HashMap[5][5];
 
-    public Board(List <String> players) {
+    public Board(List <Player> players) {
         initialize();
         singleMove = new SingleMove(players);
-        coordinate = new Coordinate(players);
+        coordinate = new Coordinate();
         winner = new Winner(players);
     }
 
@@ -26,6 +26,7 @@ public class Board {
         Ring ring = player.getRing();
         if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
             ring.subtract(size);
+            coordinate.setAllPossibleCoordinates(player, x, y);
             return singleMove.move(player, size, boardArray[x][y]);
         }
         return false;

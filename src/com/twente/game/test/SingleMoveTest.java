@@ -32,8 +32,8 @@ public class SingleMoveTest {
     @Test
     public void testPlayer1InsertSameMove() {
 
-        List <String> players = new ArrayList <>();
-        players.add("player1");
+        List <Player> players = new ArrayList <>();
+        players.add(player);
 
         board = new SingleMove(players);
 
@@ -46,9 +46,9 @@ public class SingleMoveTest {
     public void testPlayer1FailToInsertSameMove() {
 
 
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
 
         board = new SingleMove(players);
 
@@ -64,10 +64,10 @@ public class SingleMoveTest {
     @Test
     public void testPlayer1ToInsertDifferentAndSameMove() {
 
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
-        players.add("player3");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        players.add(new Player("player3", Color.YELLOW, new Ring()));
 
         board = new SingleMove(players);
 

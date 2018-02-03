@@ -14,7 +14,7 @@ import java.util.*;
 
 public class ChatServer {
     private int port;
-    private List <String> players = new ArrayList <String>();
+    private List <Player> players = new ArrayList <>();
     private Set <PlayerThread> playerThreads = new HashSet <>();
     private Board board;
     private Winner winner;
@@ -106,22 +106,23 @@ public class ChatServer {
     /**
      * Stores username of the newly connected client.
      */
-    void playerName(String userName) {
-        players.add(userName);
+
+    void player(Player player) {
+        players.add(player);
     }
 
     /**
      * When a client is disconneted, removes the associated username and UserThread
      */
-    void removePlayer(String userName, PlayerThread aUser) {
-        boolean removed = players.remove(userName);
+    void removePlayer(Player player, PlayerThread aUser) {
+        boolean removed = players.remove(player);
         if (removed) {
             playerThreads.remove(aUser);
-            System.out.println("The user " + userName + " quitted");
+            System.out.println("The user " + player.getName() + " quitted");
         }
     }
 
-    List <String> getPlayers() {
+    List <Player> getPlayers() {
         return this.players;
     }
 
@@ -148,9 +149,11 @@ public class ChatServer {
 
     public void sendResults(PlayerThread playerThread) {
 
-        for (PlayerThread aUser : playerThreads) {
-            if (aUser != playerThread) {
-                aUser.sendMessage("Name = " + aUser.getPlayer().getName() + ", PointsMap = " + board.getPlayerPointsMap(aUser.getPlayer()) + ", RingsMap = " + board.getPlayerRingsMap(aUser.getPlayer()));
+        if (playerThreads.size() == 1) {
+            for (PlayerThread aUser : playerThreads) {
+                if (aUser != playerThread) {
+                    aUser.sendMessage("Name = " + aUser.getPlayer().getName() + ", PointsMap = " + board.getPlayerPointsMap(aUser.getPlayer()) + ", RingsMap = " + board.getPlayerRingsMap(aUser.getPlayer()));
+                }
             }
         }
     }

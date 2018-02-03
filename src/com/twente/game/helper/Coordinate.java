@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Coordinate {
-    private List <String> players;
-
-    public Coordinate(List <String> players) {
-        this.players = players;
-    }
 
     public boolean isValidCoordinates(Player player, int x, int y, Map <String, List <Integer>>[][] board) {
 
@@ -66,5 +61,13 @@ public class Coordinate {
         return isEmpty;
     }
 
-    
+
+    public void setAllPossibleCoordinates(Player player, int x, int y) {
+        for (int i = 0; i < 5; i++) {
+            player.addSinglePossibleMove(x + "," + i);
+        }
+        for (int j = 0; j < 5; j++) {
+            player.addSinglePossibleMove(j + "," + y);
+        }
+    }
 }

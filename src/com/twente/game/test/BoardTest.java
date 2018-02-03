@@ -17,21 +17,21 @@ public class BoardTest {
     private SingleMove singleMove;
     private Coordinate coordinate;
     private Winner winner;
-    private List <String> players = new ArrayList <>();
+    private List <Player> players = new ArrayList <>();
     private Player player;
 
     @BeforeEach
     void setUp() {
         initializePlayers();
         singleMove = new SingleMove(players);
-        coordinate = new Coordinate(players);
+        coordinate = new Coordinate();
         board = new Board(players);
         player = new Player("player1", Color.YELLOW, new Ring());
     }
 
     private void initializePlayers() {
-        players.add("player1");
-        players.add("player2");
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
     }
 
     @Test

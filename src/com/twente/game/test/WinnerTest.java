@@ -42,8 +42,8 @@ public class WinnerTest {
     @Test
     void testPlayer1Winner() {
 
-        List <String> players = new ArrayList <>();
-        players.add("player1");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
 
         winner = new Winner(players);
 
@@ -60,9 +60,9 @@ public class WinnerTest {
     @Test
     void testPlayer2Winner() {
 
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
 
         winner = new Winner(players);
 

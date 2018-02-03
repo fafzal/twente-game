@@ -8,9 +8,9 @@ import java.util.Map;
 public class SingleMove {
 
 
-    private List <String> players;
+    private List <Player> players;
 
-    public SingleMove(List <String> players) {
+    public SingleMove(List <Player> players) {
         this.players = players;
 
     }
@@ -37,8 +37,8 @@ public class SingleMove {
 
         boolean flag = true;
 
-        for (String player : players) {
-            List <Integer> list = userMap.get(player);
+        for (Player player : players) {
+            List <Integer> list = userMap.get(player.getName());
             if (list != null && list.contains(move)) {
                 flag = true;
                 break;

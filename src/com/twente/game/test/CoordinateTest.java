@@ -23,6 +23,7 @@ public class CoordinateTest {
 
     @BeforeEach
     void setUp() {
+        coordinate = new Coordinate();
         initialize();
         player = new Player("player1", Color.YELLOW, new Ring());
     }
@@ -37,11 +38,11 @@ public class CoordinateTest {
 
     @Test
     void scanBoard2Player() {
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
 
-        coordinate = new Coordinate(players);
+        coordinate = new Coordinate();
         s = new SingleMove(players);
 
         boolean actual = coordinate.isValidCoordinates(player, 2, 3, boardIndex);
@@ -61,7 +62,7 @@ public class CoordinateTest {
         players.add("player1");
         players.add("player2");
 
-        coordinate = new Coordinate(players);
+        coordinate = new Coordinate();
 
         boolean result = coordinate.isValidMoveForBase("player", 7, 6, 2, boardIndex);
         assertFalse(result);
@@ -71,17 +72,36 @@ public class CoordinateTest {
 
     @Test
     void scanBoard2Player_() {
-        List <String> players = new ArrayList <>();
-        players.add("player1");
-        players.add("player2");
+        List <Player> players = new ArrayList <>();
+        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(new Player("player2", Color.YELLOW, new Ring()));
 
-        coordinate = new Coordinate(players);
+        coordinate = new Coordinate();
         s = new SingleMove(players);
         boolean actual1 = s.move(player, 2, boardIndex[2][3]);
         boolean actual = coordinate.isValidCoordinates(player, -2, 3, boardIndex);
         assertFalse(actual);
         assertTrue(actual1);
 
+    }
+
+    @Test
+    void testAllPossibleCoordinates() {
+
+        int x = 1;
+        int y = 1;
+
+        coordinate.setAllPossibleCoordinates(player, x, y);
+
+        assertTrue(player.getPossibleMoves().contains("1,1"));
+        assertTrue(player.getPossibleMoves().contains("2,1"));
+        assertTrue(player.getPossibleMoves().contains("3,1"));
+
+        assertTrue(player.getPossibleMoves().contains("1,1"));
+        assertTrue(player.getPossibleMoves().contains("1,2"));
+        assertTrue(player.getPossibleMoves().contains("1,3"));
+
+        assertFalse(player.getPossibleMoves().contains("2,2"));
     }
 }
 

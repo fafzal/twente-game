@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class Winner {
 
-    private List <String> players;
+    private List <Player> players;
 
-    public Winner(List <String> players) {
+    public Winner(List <Player> players) {
         this.players = players;
     }
 
@@ -24,9 +24,9 @@ public class Winner {
                     int length = integers.size();
                     String index = "[" + i + "]" + "[" + j + "]";
                     playerWinnerMap.put(index, 1);
-                    for (String playerTmp : players) {
-                        if (!playerTmp.equals(player.getName())) {
-                            List <Integer> userPointList = playerMap.get(playerTmp);
+                    for (Player playerTmp : players) {
+                        if (!playerTmp.getName().equals(player.getName())) {
+                            List <Integer> userPointList = playerMap.get(playerTmp.getName());
                             if (!userPointList.isEmpty() && length <= userPointList.size()) {
                                 playerWinnerMap.put(index, 0);
                             }
