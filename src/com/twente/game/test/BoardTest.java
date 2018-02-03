@@ -21,6 +21,8 @@ public class BoardTest {
     private List <Player> players = new ArrayList <>();
     private Player player;
     private Player player2;
+    private Player player3;
+    private Player player4;
 
     @BeforeEach
     void setUp() {
@@ -34,7 +36,6 @@ public class BoardTest {
     private void initializePlayers() {
         List <Color> colors = new ArrayList <>();
         colors.add(Color.YELLOW);
-        colors.add(Color.GREEN);
 
         player = new Player("player1", colors, new Ring());
 
@@ -43,8 +44,20 @@ public class BoardTest {
 
         player2 = new Player("player2", colors, new Ring());
 
+        colors = new ArrayList <>();
+        colors.add(Color.GREEN);
+
+        player3 = new Player("player3", colors, new Ring());
+
+        colors = new ArrayList <>();
+        colors.add(Color.PURPLE);
+
+        player4 = new Player("player4", colors, new Ring());
+
         players.add(player);
         players.add(player2);
+        players.add(player3);
+        players.add(player4);
 
     }
 
@@ -76,7 +89,7 @@ public class BoardTest {
     void testSingleMovePlayer1AndPlayer2() {
 
         boolean isMove1 = board.applySingleMove(player, 2, 3, 2, Color.YELLOW);
-        boolean isMove2 = board.applySingleMove(player, 2, 3, 3, Color.GREEN);
+        boolean isMove2 = board.applySingleMove(player2, 2, 3, 3, Color.BLUE);
 
         assertTrue(isMove1);
         assertTrue(isMove2);
@@ -95,6 +108,22 @@ public class BoardTest {
         assertTrue(isMove2);
         assertTrue(isMove3);
         assertFalse(isMove4);
+
+    }
+
+
+    @Test
+    void testSingleMoveMultiPlayer() {
+
+        boolean isMove1 = board.applySingleMove(player, 1, 3, 2, Color.YELLOW);
+        boolean isMove2 = board.applySingleMove(player2, 2, 3, 2, Color.BLUE);
+        boolean isMove3 = board.applySingleMove(player3, 3, 3, 2, Color.GREEN);
+        boolean isMove4 = board.applySingleMove(player4, 4, 3, 2, Color.PURPLE);
+
+        assertTrue(isMove1);
+        assertTrue(isMove2);
+        assertTrue(isMove3);
+        assertTrue(isMove4);
 
     }
 
