@@ -53,7 +53,7 @@ public class PlayerThread extends Thread {
 //                serverMessage = "[" + playerName + "]: " + clientMessage;
 //                server.broadcast(serverMessage, this);
 
-                getCommand(playerName, clientMessage);
+                getCommand(clientMessage);
 
 
             } while (!clientMessage.equals("player_left"));
@@ -73,7 +73,7 @@ public class PlayerThread extends Thread {
         }
     }
 
-    private void getCommand(String playerName, String clientMessage) throws IOException {
+    private void getCommand(String clientMessage) throws IOException {
 
         if (clientMessage.equals("hello")) {
             server.sendMessageToPlayers("hello", this);
@@ -85,18 +85,18 @@ public class PlayerThread extends Thread {
         } else if (clientMessage.contains("move")) {
             server.resetTurns();
             if (isTurn()) {
-                extractAndSendNotification(playerName, clientMessage);
+                extractAndSendNotification(clientMessage);
                 setTurn(false);
             } else {
                 server.sendError(2, this);
             }
-        } else if (clientMessage.contains("errorcode")) {
+        } else if (!clientMessage.contains("player_left")) {
             server.sendError(4, this);
         }
 
     }
 
-    private void extractAndSendNotification(String playerName, String clientMessage) {
+    private void extractAndSendNotification(String clientMessage) {
         String[] arr = clientMessage.split(",");
         String x = arr[1];
         String y = arr[2];

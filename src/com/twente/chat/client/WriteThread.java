@@ -59,8 +59,11 @@ public class WriteThread extends Thread {
                 case "player_left":
                     writer.println(text);
                     break;
+
+                default:
+                    writer.println(text);
             }
-            writer.println(text);
+//            writer.println(text);
 
         } while (!text.equals("bye"));
 
