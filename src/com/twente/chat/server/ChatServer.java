@@ -158,6 +158,45 @@ public class ChatServer {
         }
     }
 
+    public boolean isMoveLeft(PlayerThread playerThread) {
+        Player player = playerThread.getPlayer();
+        boolean result = board.isMoveLeft(player);
+        return result;
+    }
+
+    public void identityWinner() {
+
+        int counter = 0;
+        for (PlayerThread playerThread : playerThreads) {
+            if (isMoveLeft(playerThread)) {
+                counter++;
+            }
+        }
+
+        if (counter == 0) {
+
+            Map <Integer, Player> playerMap = new HashMap <>();
+            for (Player player : players) {
+                Map <String, Integer> map = board.getPlayerWinnerMap(player);
+                counter = board.winnerMapCount(map);
+                playerMap.put(counter, player);
+            }
+            List <Integer> keys = new ArrayList(playerMap.keySet());
+            Collections.sort(keys);
+
+            int max = keys.get(keys.size() - 1);
+            Player player = playerMap.get(max);
+
+            for (PlayerThread playerThread : playerThreads) {
+                if (playerThread.getPlayer().getName().equals(player.getName())) {
+
+                    playerThread.sendMessage("Name = " + playerThread.getPlayer().getName() + ", PointsMap = " + board.getPlayerPointsMap(playerThread.getPlayer()) + ", RingsMap = " + board.getPlayerRingsMap(playerThread.getPlayer()));
+
+                }
+            }
+        }
+    }
+
     private class PlayerTurnPredicate implements Predicate <PlayerThread> {
 
         private boolean isTurn = false;

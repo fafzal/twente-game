@@ -10,19 +10,20 @@ public class Player {
     private String name;
     private Ring ring;
     private Map <Color, List <String>> colorMovesMap;
-
-
-    public void setPossibleMoves(List <String> possibleMoves, Color color) {
-        this.colorMovesMap.put(color, possibleMoves);
-    }
+    private List <Color> colors;
 
     public Player(String name, List <Color> colours, Ring ring) {
         this.name = name;
         this.ring = ring;
+        this.colors = colours;
         colorMovesMap = new HashMap <>();
         for (Color color : colours) {
             colorMovesMap.put(color, new ArrayList <>());
         }
+    }
+
+    public List <Color> getColors() {
+        return colors;
     }
 
     public String getName() {

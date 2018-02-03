@@ -93,6 +93,7 @@ public class PlayerThread extends Thread {
             if (isTurn()) {
                 extractAndSendNotification(clientMessage);
                 setTurn(false);
+                server.identityWinner();
             } else {
                 server.sendError(2, this);
             }
@@ -108,17 +109,19 @@ public class PlayerThread extends Thread {
         String y = arr[2];
         Integer intX = Integer.valueOf(x);
         Integer intY = Integer.valueOf(y);
-        if (intX >= 0 && intX < 5 && intY >= 0 && intY < 5) {
-            boolean isMoveDone = server.move(player, x, y, arr[3], arr[4]);
-            if (isMoveDone) {
-                server.sendMessageToPlayers("move_done", this);
-                server.sendToMoveCommandToOtherPlayer("do_move", this);
-                server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
+        if (server.isMoveLeft(this)) {
+            if (intX >= 0 && intX < 5 && intY >= 0 && intY < 5) {
+                boolean isMoveDone = server.move(player, x, y, arr[3], arr[4]);
+                if (isMoveDone) {
+                    server.sendMessageToPlayers("move_done", this);
+                    server.sendToMoveCommandToOtherPlayer("do_move", this);
+                    server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
+                } else {
+                    server.sendMessageToPlayers("errorcode = 0", this);
+                }
             } else {
-                server.sendMessageToPlayers("errorcode = 0", this);
+                server.sendMessageToPlayers("errorcode = 1", this);
             }
-        } else {
-            server.sendMessageToPlayers("errorcode = 1", this);
         }
     }
 
