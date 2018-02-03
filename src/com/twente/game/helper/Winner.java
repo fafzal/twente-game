@@ -49,7 +49,5 @@ public class Winner {
         playerPointsMap.put("4", ring.getHuge());
 
         return playerPointsMap;
-
-
     }
 }

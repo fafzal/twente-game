@@ -24,9 +24,16 @@ public class SingleMoveTest {
     @BeforeEach
     void setUp() {
         boardIndex[0][0] = userMap;
-        player = new Player("player1", Color.YELLOW, new Ring());
-        player2 = new Player("player2", Color.YELLOW, new Ring());
-        player3 = new Player("player3", Color.YELLOW, new Ring());
+        initializePlayer();
+
+    }
+
+    private void initializePlayer() {
+        List <Color> colors = new ArrayList <>();
+        colors.add(Color.YELLOW);
+        player = new Player("player1", colors, new Ring());
+        player2 = new Player("player2", colors, new Ring());
+        player3 = new Player("player3", colors, new Ring());
     }
 
     @Test
@@ -47,8 +54,8 @@ public class SingleMoveTest {
 
 
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        players.add(player);
+        players.add(player2);
 
         board = new SingleMove(players);
 
@@ -65,9 +72,9 @@ public class SingleMoveTest {
     public void testPlayer1ToInsertDifferentAndSameMove() {
 
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
-        players.add(new Player("player3", Color.YELLOW, new Ring()));
+        players.add(player);
+        players.add(player2);
+        players.add(player3);
 
         board = new SingleMove(players);
 

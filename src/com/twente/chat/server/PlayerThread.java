@@ -6,6 +6,8 @@ import com.twente.game.helper.Ring;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerThread extends Thread {
     private Socket socket;
@@ -41,8 +43,10 @@ public class PlayerThread extends Thread {
                     return;
                 }
             }
+            List <Color> colors = new ArrayList <>();
+            colors.add(Color.YELLOW);
 
-            player = new Player(playerName, Color.YELLOW, new Ring());
+            player = new Player(playerName, colors, new Ring());
             server.player(player);
 
 //            String serverMessage = "New player connected: " + playerName;

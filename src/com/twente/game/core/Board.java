@@ -21,12 +21,12 @@ public class Board {
         winner = new Winner(players);
     }
 
-    public boolean applySingleMove(Player player, int x, int y, int size, Color yellow) {
+    public boolean applySingleMove(Player player, int x, int y, int size, Color color) {
 
         Ring ring = player.getRing();
         if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
             ring.subtract(size);
-            coordinate.setAllPossibleCoordinates(player, x, y);
+            coordinate.setAllPossibleCoordinates(player, x, y, color);
             return singleMove.move(player, size, boardArray[x][y]);
         }
         return false;

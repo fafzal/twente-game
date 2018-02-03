@@ -62,12 +62,12 @@ public class Coordinate {
     }
 
 
-    public void setAllPossibleCoordinates(Player player, int x, int y) {
+    public void setAllPossibleCoordinates(Player player, int x, int y, Color color) {
         for (int i = 0; i < 5; i++) {
-            player.addSinglePossibleMove(x + "," + i);
+            player.addSinglePossibleMove(x + "," + i, color);
         }
         for (int j = 0; j < 5; j++) {
-            player.addSinglePossibleMove(j + "," + y);
+            player.addSinglePossibleMove(j + "," + y, color);
         }
     }
 }

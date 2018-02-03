@@ -26,12 +26,15 @@ public class BoardTest {
         singleMove = new SingleMove(players);
         coordinate = new Coordinate();
         board = new Board(players);
-        player = new Player("player1", Color.YELLOW, new Ring());
     }
 
     private void initializePlayers() {
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        List <Color> colors = new ArrayList <>();
+        colors.add(Color.YELLOW);
+        colors.add(Color.GREEN);
+        player = new Player("player1", colors, new Ring());
+        players.add(player);
+
     }
 
     @Test

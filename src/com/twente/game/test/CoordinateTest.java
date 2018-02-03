@@ -19,13 +19,22 @@ public class CoordinateTest {
     private Map <String, List <Integer>> userMap = new HashMap <>();
     private SingleMove s;
     private Player player;
+    private Player player2;
 
 
     @BeforeEach
     void setUp() {
         coordinate = new Coordinate();
         initialize();
-        player = new Player("player1", Color.YELLOW, new Ring());
+        initializePlayer();
+
+    }
+
+    private void initializePlayer() {
+        List <Color> colors = new ArrayList <>();
+        colors.add(Color.YELLOW);
+        player = new Player("player1", colors, new Ring());
+        player2 = new Player("player2", colors, new Ring());
     }
 
     private void initialize() {
@@ -39,8 +48,8 @@ public class CoordinateTest {
     @Test
     void scanBoard2Player() {
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        players.add(player);
+        players.add(player2);
 
         coordinate = new Coordinate();
         s = new SingleMove(players);
@@ -73,8 +82,8 @@ public class CoordinateTest {
     @Test
     void scanBoard2Player_() {
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        players.add(player);
+        players.add(player2);
 
         coordinate = new Coordinate();
         s = new SingleMove(players);
@@ -91,17 +100,17 @@ public class CoordinateTest {
         int x = 1;
         int y = 1;
 
-        coordinate.setAllPossibleCoordinates(player, x, y);
+        coordinate.setAllPossibleCoordinates(player, x, y, Color.YELLOW);
 
-        assertTrue(player.getPossibleMoves().contains("1,1"));
-        assertTrue(player.getPossibleMoves().contains("2,1"));
-        assertTrue(player.getPossibleMoves().contains("3,1"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("1,1"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("2,1"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("3,1"));
 
-        assertTrue(player.getPossibleMoves().contains("1,1"));
-        assertTrue(player.getPossibleMoves().contains("1,2"));
-        assertTrue(player.getPossibleMoves().contains("1,3"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("1,1"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("1,2"));
+        assertTrue(player.getPossibleMoves(Color.YELLOW).contains("1,3"));
 
-        assertFalse(player.getPossibleMoves().contains("2,2"));
+        assertFalse(player.getPossibleMoves(Color.YELLOW).contains("2,2"));
     }
 }
 

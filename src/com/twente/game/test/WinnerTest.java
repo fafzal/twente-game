@@ -20,11 +20,22 @@ public class WinnerTest {
 
     Map <String, List <Integer>> boardIndex[][] = new HashMap[5][5];
     Map <String, List <Integer>> userMap = new HashMap <>();
+    Player player;
+    Player player2;
 
 
     @BeforeEach
     void setUp() {
         initialize();
+        initializePlayer();
+
+    }
+
+    private void initializePlayer() {
+        List <Color> colors = new ArrayList <>();
+        colors.add(Color.YELLOW);
+        player = new Player("player1", colors, new Ring());
+        player2 = new Player("player2", colors, new Ring());
     }
 
     private void initialize() {
@@ -43,7 +54,7 @@ public class WinnerTest {
     void testPlayer1Winner() {
 
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
+        players.add(player);
 
         winner = new Winner(players);
 
@@ -51,7 +62,6 @@ public class WinnerTest {
         list.add(1);
         list.add(2);
         boardIndex[0][0].put("player1", list);
-        Player player = new Player("player1", Color.YELLOW, new Ring());
         Map <String, Integer> playerIsWinnerMap = winner.getPlayerPointsMap(player, boardIndex);
         assertEquals(Integer.valueOf(1), playerIsWinnerMap.get("[0][0]"));
     }
@@ -61,8 +71,8 @@ public class WinnerTest {
     void testPlayer2Winner() {
 
         List <Player> players = new ArrayList <>();
-        players.add(new Player("player1", Color.YELLOW, new Ring()));
-        players.add(new Player("player2", Color.YELLOW, new Ring()));
+        players.add(player);
+        players.add(player2);
 
         winner = new Winner(players);
 
@@ -75,8 +85,7 @@ public class WinnerTest {
         list.add(4);
         boardIndex[0][0].put("player2", list);
 
-        Player player = new Player("player2", Color.YELLOW, new Ring());
-        Map <String, Integer> playerIsWinnerMap = winner.getPlayerPointsMap(player, boardIndex);
+        Map <String, Integer> playerIsWinnerMap = winner.getPlayerPointsMap(player2, boardIndex);
         assertEquals(Integer.valueOf(1), playerIsWinnerMap.get("[0][0]"));
     }
 
