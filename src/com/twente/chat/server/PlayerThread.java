@@ -104,7 +104,7 @@ public class PlayerThread extends Thread {
     }
 
     private void extractAndSendNotification(String clientMessage) {
-        String[] arr = clientMessage.split(",");
+        String[] arr = clientMessage.split(" ");
         String x = arr[1];
         String y = arr[2];
         Integer intX = Integer.valueOf(x);
@@ -113,14 +113,13 @@ public class PlayerThread extends Thread {
             if (intX >= 0 && intX < 5 && intY >= 0 && intY < 5) {
                 boolean isMoveDone = server.move(player, x, y, arr[3], arr[4]);
                 if (isMoveDone) {
-                    server.sendMessageToPlayers("move_done", this);
                     server.sendToMoveCommandToOtherPlayer("do_move", this);
                     server.sendDoneMoveCommandToCurrentPlayer("done_move", this);
                 } else {
-                    server.sendMessageToPlayers("errorcode = 0", this);
+                    server.sendMessageToPlayers("error 0", this);
                 }
             } else {
-                server.sendMessageToPlayers("errorcode = 1", this);
+                server.sendMessageToPlayers("error 1", this);
             }
         }
     }

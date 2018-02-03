@@ -38,32 +38,9 @@ public class WriteThread extends Thread {
         String text;
 
         do {
-            System.out.println("[" + userName + "]: ");
-            System.out.println("Enter command: ");
+            System.out.println("<" + userName + "> ");
             text = scanner.nextLine();
-            switch (text) {
-
-                case "hello":
-                    writer.println(text);
-                    break;
-
-                case "start":
-                    writer.println(text);
-                    break;
-
-                case "move":
-                    text = scanner.nextLine();
-                    writer.println("move," + text);
-                    break;
-
-                case "player_left":
-                    writer.println(text);
-                    break;
-
-                default:
-                    writer.println(text);
-            }
-//            writer.println(text);
+            sendCommand(scanner, text);
 
         } while (!text.equals("bye"));
 
@@ -72,6 +49,21 @@ public class WriteThread extends Thread {
         } catch (IOException ex) {
 
             System.out.println("Error writing to server: " + ex.getMessage());
+        }
+    }
+
+    private void sendCommand(Scanner scanner, String text) {
+
+        if (text.equals("hello")) {
+            writer.println(text);
+        } else if (text.equals("start")) {
+            writer.println(text);
+        } else if (text.contains("move")) {
+            writer.println(text);
+        } else if (text.contains("player_left")) {
+            writer.println(text);
+        } else {
+            writer.println(text);
         }
     }
 }
