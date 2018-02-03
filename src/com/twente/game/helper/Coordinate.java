@@ -44,9 +44,9 @@ public class Coordinate {
 
     }
 
-    public boolean isValidMoveForBase(String player, int x, int y, int move, Map <String, List <Integer>>[][] board1) {
+    public boolean isValidMoveForBase(int x, int y, int move, Map <String, List <Integer>>[][] board1) {
         boolean isEmpty = true;
-        if (!(x >= 1 && x <= 4 && y >= 1 && y <= 4)) {
+        if (!(x >= 1 && x <= 3 && y >= 1 && y <= 3)) {
             return false;
         }
         for (int i = 1; i <= 3; i++) {

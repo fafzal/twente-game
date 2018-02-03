@@ -73,7 +73,7 @@ public class CoordinateTest {
 
         coordinate = new Coordinate();
 
-        boolean result = coordinate.isValidMoveForBase("player", 7, 6, 2, boardIndex);
+        boolean result = coordinate.isValidMoveForBase(7, 6, 2, boardIndex);
         assertFalse(result);
 
 

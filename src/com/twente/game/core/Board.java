@@ -11,6 +11,7 @@ public class Board {
     SingleMove singleMove;
     Coordinate coordinate;
     Winner winner;
+    boolean boardArrayEmpty = false;
 
     private Map <String, List <Integer>> boardArray[][] = new HashMap[5][5];
 
@@ -23,12 +24,26 @@ public class Board {
 
     public boolean applySingleMove(Player player, int x, int y, int size, Color color) {
 
-        Ring ring = player.getRing();
-        if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
-            ring.subtract(size);
-            coordinate.setAllPossibleCoordinates(player, x, y, color);
-            return singleMove.move(player, size, boardArray[x][y]);
+        if (boardArrayEmpty) {
+            boardArrayEmpty = false;
+            boolean isValidCoordinate = coordinate.isValidMoveForBase(x, y, size, boardArray);
+            if (isValidCoordinate) {
+                Ring ring = player.getRing();
+                if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
+                    ring.subtract(size);
+                    coordinate.setAllPossibleCoordinates(player, x, y, color);
+                    return singleMove.move(player, size, boardArray[x][y]);
+                }
+            }
+        } else {
+            Ring ring = player.getRing();
+            if (coordinate.isValidCoordinates(player, x, y, boardArray) && ring.getRoundLeft(size) != 0) {
+                ring.subtract(size);
+                coordinate.setAllPossibleCoordinates(player, x, y, color);
+                return singleMove.move(player, size, boardArray[x][y]);
+            }
         }
+
         return false;
     }
 
@@ -46,6 +61,7 @@ public class Board {
                 boardArray[i][j] = new HashMap <>();
             }
         }
+        boardArrayEmpty = true;
     }
 
 
